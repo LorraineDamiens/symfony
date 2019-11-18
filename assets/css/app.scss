@@ -1,0 +1,23 @@
+@import "~bootstrap/scss/bootstrap";
+
+$vermilion: #DD6E42;
+$wheat: #E8DAB2;
+$grey: #4F6D7A;
+$blue: #C0D6DF;
+$isabelline: #EAEAEA;
+
+$theme-colors: (
+        'vermilion': $vermilion,
+        'wheat': $wheat,
+        'grey': $grey,
+        'blue': $blue,
+        'isabelline': $isabelline,
+);
+nav {
+    background-color:$vermilion;
+}
+
+body {
+    background-color:$wheat;
+}
+
