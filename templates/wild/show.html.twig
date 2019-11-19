@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    {% if slug is empty %}
+    <h1>Aucune série sélectionnée, veuillez choisir une série</h1>
+    {% else %}
+    <h1>{{ slug |title |replace({'-': ' '})}}</h1>
+    {% endif %}
+
+{% endblock %}
