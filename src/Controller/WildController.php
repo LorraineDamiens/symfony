@@ -19,7 +19,7 @@ Class WildController extends AbstractController
         ]);
     }
     /**
-     * @Route("/wild/show/{slug}",requirements={"{slug}"="\[a-z0-9]"},  name="wild_show", defaults={"slug"=null})     */
+     * @Route("/wild/show/{slug}",requirements={"slug"="^[a-z0-9]+(?:-[a-z0-9]+)*$"},  name="wild_show", defaults={"slug"=null})     */
     public function show($slug): Response
     {
         // render twig
