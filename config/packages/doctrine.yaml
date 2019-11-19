@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
+        #admin:Administrateur43!'@127.0.0.1:3306/wild-series
         # IMPORTANT: You MUST configure your db driver and server version,
         # either here or in the DATABASE_URL env var (see .env file)
         #driver: 'mysql'
