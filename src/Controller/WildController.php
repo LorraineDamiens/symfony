@@ -2,6 +2,7 @@
 // src/Controller/WildController.php
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Program;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,5 +67,41 @@ Class WildController extends AbstractController
             'program' => $program,
             'slug'  => $slug,
         ]);
+    }
+    /**
+     * Show all rows from Program by category
+     * @Route("/category/{category}", name="show_category")
+     * @return Response A response instance
+     */
+    public function showByCategory(string $categoryName):Response
+    {
+        if (!$categoryName) {
+            throw $this
+                ->createNotFoundException('No category has been sent to find a category in category\'s table.');
+        }
+        $categoryName = preg_replace(
+            '/-/',
+            ' ', ucwords(trim(strip_tags($categoryName)), "-")
+        );
+        $category = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findOneBy(['name'=> mb_strtolower($categoryName)]);
+        if (!$category) {
+            throw $this->createNotFoundException(
+                'No category with '.$categoryName.', found in category\'s table.'
+            );
+        }
+
+        $program = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findBy(['title' => mb_strtolower($slug)]);
+
+        return $this->render('wild/category.html.twig', [
+            'category' => $category,
+            'categoryName'  => $categoryName,
+            'program' => $program,
+
+        ]);
+
     }
 }
