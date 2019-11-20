@@ -69,39 +69,43 @@ Class WildController extends AbstractController
         ]);
     }
     /**
-     * Show all rows from Program by category
-     * @Route("/category/{category}", name="show_category")
-     * @return Response A response instance
+     * Getting a category with a formatted categoryName for category name
+     * @param string $categoryName
+     * @Route("/wild/category/{categoryName}", requirements={"categoryName"="[a-z 0-9 -]+"}, name="show_category", defaults={"categoryName"=null})
+     *@return Response
      */
-    public function showByCategory(string $categoryName):Response
+    public function showByCategory(?string $categoryName) : response
     {
-        if (!$categoryName) {
+        if (!$categoryName){
             throw $this
-                ->createNotFoundException('No category has been sent to find a category in category\'s table.');
+                ->createNotFoundException('No category has been sent to find a category in category table');
         }
         $categoryName = preg_replace(
-            '/-/',
-            ' ', ucwords(trim(strip_tags($categoryName)), "-")
+            '/-/', ' ', ucwords(trim(strip_tags($categoryName)), "-")
         );
         $category = $this->getDoctrine()
             ->getRepository(Category::class)
-            ->findOneBy(['name'=> mb_strtolower($categoryName)]);
-        if (!$category) {
-            throw $this->createNotFoundException(
-                'No category with '.$categoryName.', found in category\'s table.'
-            );
+            ->findOneBy([
+                'name' => mb_strtolower($categoryName)
+            ]);
+        if (!$category){
+            throw $this
+                ->createNotFoundException('No category with'.$categoryName.'name found in category table');
         }
-
         $program = $this->getDoctrine()
             ->getRepository(Program::class)
-            ->findBy(['title' => mb_strtolower($slug)]);
-
+            ->findBy(
+                ['category' => $category],
+                ['id' => 'DESC'],
+                3
+            );
+        if (!$program){
+            throw $this
+                ->createNotFoundException('No program found in program table');
+        }
         return $this->render('wild/category.html.twig', [
-            'category' => $category,
-            'categoryName'  => $categoryName,
-            'program' => $program,
-
+            'categoryname' => ucwords(str_replace("-", " ", $categoryName)), 'category' => $category,
+            'programs' => $program
         ]);
-
     }
 }

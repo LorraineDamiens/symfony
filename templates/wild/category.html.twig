@@ -1,10 +1,29 @@
 {% extends 'base.html.twig' %}
- {% for category in categories %}
-<div>
+{% block title %} {{categoryname}}{% endblock %}
 
-    <h2>{{ loop.index }} / {{ program.title }} </h2>
-    <p>{{ program.summary }}</p>
-</div
- {% endfor %}>
+    {% block body %}
+        <section class="text-center">
+            <h1>{% if categoryname is empty %} Aucune categorie sélectionnée, veuillez sélectionner une categorie {% else %}{{categoryname}} {% endif %} </h1>
+            <div class="row justify-content-around">
+                {% for program in programs %}
+                    <div class="flex-column">
+                        <div class="card-deck">
+                            <div class="card" style="width: 18rem">
+                                <img src="{{program.poster}}" class="card-img-top" alt="poster">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ program.title }}</h5>
+                                    <p class="card-text">{{ program.summary }}</p>
+                                    <a href="show/{{ (program.title|replace({" ":"-"}) | title)|lower }}" class="btn btn-primary">Choisir</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% else %}
+                    Aucune série trouvée.
+                {% endfor %}
+            </div>
+        </section>
 
 {% endblock %}
