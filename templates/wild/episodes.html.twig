@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ slug }}{% endblock %}
+
 
 {% block body %}
 
@@ -8,9 +8,15 @@
         <div class="media-body">
             <h1 class="mt-0">{{ programs.title }}</h1>
             <p>{{ programs.summary }}</p>
-            <p>Categorie : {{ programs.category.name }}</p>
-            {% for s in season %}
-                <a href="{{ path('show_season', {id: s.id}) }}">{{ s.description }}</a>
+            <h4>Categorie : {{ programs.category.name }}</h4>
+            <h3>{{ season.description}} : {{ season.year }}</h3>
+            {% for episode in episodes %}
+                <ul>
+                <h3>{{ episode.title }}</h3>
+                    <p>Episode n°: {{ episode.number }}</p>
+                    <p>Synopsis: {{ episode.synopsis  }}</p>
+
+                </ul>
             {% endfor %}
         </div>
     </div>
