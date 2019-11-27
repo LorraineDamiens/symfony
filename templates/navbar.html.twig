@@ -15,19 +15,23 @@
                     <a class="dropdown-item" href="#">Something else here</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Acteurs
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#">Bob</a>
-                    <a class="dropdown-item" href="#">Bill</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Mes favoris</a>
+                <a class="nav-link" href={{ path('index') }} >
+                    Liste des séries
+                </a>
+
             </li>
+            <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Gestion du site
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href={{ path('category') }}>Catégories</a>
+                <a class="dropdown-item" href={{ path('program_index')}}>Séries</a>
+                <a class="dropdown-item" href={{ path('season_index') }}>Saisons</a>
+                <a class="dropdown-item" href={{ path('episode_index') }}>Episodes</a>
+            </div>
+             </li>
         </ul>
     </div>
 </nav>
