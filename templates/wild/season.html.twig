@@ -13,14 +13,14 @@
             {% for episode in episodes %}
                 <ul>
                 <h3>{{ episode.title }}</h3>
-                    <p>Episode n°: {{ episode.number }}</p>
-                    <p>Synopsis: {{ episode.synopsis  }}</p>
+                    <a href="{{ path('show_episode', {id: episode.id}) }}">Episode n°: {{ episode.number }}</a>
 
                 </ul>
             {% endfor %}
         </div>
     </div>
-
+    <a href="/show/{{ (programs.title|replace({" ":"-"}) | title)|lower }}" >Précédent</a>
+</br>
     <a href="{{ path('index') }}">
         Retour à l'accueil
     </a>
