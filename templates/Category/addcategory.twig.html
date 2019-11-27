@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+        {% block body %}
+            <div>
+                <h1>Ajouter une  catégorie</h1>
+                {{ form_start(form) }}
+                {{ form_row(form.name) }}
+                <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+                {{ form_end(form) }}
+                <h3> Liste des catégories</h3>
+                {% for categories in category %}
+                    <h3>{{ categories.name }}</h3>
+                {% endfor %}
+            </div>
+{% endblock %}
