@@ -8,12 +8,13 @@
         <div class="row justify-content-around">
             {% for program in programs %}
                 <div class="flex-column">
-                    <div class="card-deck">
-                        <div class="card" style="width: 18rem">
+                    <div class="card-deck my-5">
+                        <div class="card " style="width: 18rem; height:auto">
                             <img src="{{program.poster}}" class="card-img-top" alt="poster">
                             <div class="card-body">
                                 <h5 class="card-title">{{ program.title }}</h5>
                                     <p class="card-text">{{ program.summary }}</p>
+
                                 <a href="show/{{ (program.title|replace({" ":"-"}) | title)|lower }}" class="btn btn-primary">Choisir</a>
                             </div>
                         </div>
@@ -25,7 +26,7 @@
         Aucune série trouvée.
             {% endfor %}
         </div>
-    <a href="{{ path('app_index') }}">
+    <a href="{{ path('index') }}">
         Retour à l'accueil
     </a>
 

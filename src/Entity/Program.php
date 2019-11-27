@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProgramRepository")
@@ -32,7 +33,7 @@ class Program
     private $poster;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="programs")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
@@ -89,4 +90,44 @@ class Program
 
         return $this;
     }
+
+    /**
+     * @return PersistentCollection|Season[]
+     */
+    public function getSeasons(): PersistentCollection
+    {
+        return $this->seasons;
+    }
+
+    /**
+     * @param Season $season
+     * @return Season
+     */
+    public function addSeason(Season $season): self
+    {
+        if (!$this->seasons->contains($season)) {
+
+            $this->seasons[] = $season;
+            $season->setProgram($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @@param Season $season
+     * @return Season
+     */
+    public function removeSeason(Season $season): self
+    {
+        if ($this->seasons->contains($season)) {
+            $this->seasons->removeElement($season);
+            // set the owning side to null (unless already changed)
+            if ($season->getProgram() === $this) {
+                $season->setProgram(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

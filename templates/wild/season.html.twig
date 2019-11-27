@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="media">
+        <img class="align-self-start mr-3" src="{{programs.poster}}" alt="{{ programs.title }} poster">
+        <div class="media-body">
+            <h1 class="mt-0">{{ programs.title }}</h1>
+            <p>{{ programs.summary }}</p>
+            <h4>Categorie : {{ programs.category.name }}</h4>
+            <h3>{{ season.description}} : {{ season.year }}</h3>
+            {% for episode in episodes %}
+                <ul>
+                <h3>{{ episode.title }}</h3>
+                    <a href="{{ path('show_episode', {id: episode.id}) }}">Episode n°: {{ episode.number }}</a>
+
+                </ul>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="/show/{{ (programs.title|replace({" ":"-"}) | title)|lower }}" >Précédent</a>
+</br>
+    <a href="{{ path('index') }}">
+        Retour à l'accueil
+    </a>
+
+{% endblock %}
