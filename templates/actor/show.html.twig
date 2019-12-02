@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actor{% endblock %}
+
+{% block body %}
+    <h1>{{ actor.name }}</h1>
+
+    {% for program in programs %}
+        <br>
+
+        <td> Série: <a href="/show/{{ (program.title|replace({" ":"-"}) | title)|lower }}"> {{ program.title }}</a></td>
+
+        </br>
+            <td> Résumé: {{ program.summary }}</td>
+        </br>
+
+    {% endfor %}
+
+
+
+
+{% endblock %}
