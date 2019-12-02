@@ -12,8 +12,20 @@
             {% for s in season %}
                 <a href="{{ path('show_season', {id: s.id}) }}">{{ s.description }}</a>
             {% endfor %}
+        </br>
+            <strong>Acteur :</strong>
+            <ul>
+                {% for actor in programs.actors %}
+                    <a href="/actor/{{ (actor.name|replace({" ":"-"}) | title)|lower }}"> {{ actor.name }} </a>
+                </br>
+                {% else %}
+                    <li>Aucun acteur pour cette série</li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
+
+
 
     <a href="{{ path('index') }}">
         Retour à l'accueil
