@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures;
 
+use  Faker;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-use phpDocumentor\Reflection\Type;
 
 class CategoryFixtures extends Fixture
 {
@@ -15,8 +15,9 @@ class CategoryFixtures extends Fixture
         'Animation',
         'Fantastique',
         'Horreur',
-        'Humour'
+        'Humour',
     ];
+
 
     public function load(ObjectManager $manager)
     {
@@ -27,7 +28,5 @@ class CategoryFixtures extends Fixture
             $this->addReference('categorie_'.$key, $category);
         }
         $manager->flush();
-
     }
 }
-

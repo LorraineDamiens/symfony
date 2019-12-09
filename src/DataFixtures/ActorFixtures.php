@@ -1,7 +1,7 @@
 <?php
-
 namespace App\DataFixtures;
 
+use Faker;
 use App\Entity\Actor;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -29,17 +29,17 @@ class ActorFixtures extends Fixture implements DependentFixtureInterface
     ];
     public function load(ObjectManager $manager)
     {
-
-        foreach (self::ACTORS as $name => $data) {
+        $faker = Faker\Factory::create('fr_FR');
+        for ($i = 0; $i < 45; $i++) {
             $actor = new Actor();
-            $actor->setName($name);
+            $actor->setName($faker->name);
             $manager->persist($actor);
-            $actor->addProgram($this->getReference($data['program']));
+            $actor->addProgram($this->getReference('program_' . rand(0, 5)));
         }
         $manager->flush();
     }
-        public function getDependencies()
-        {
-            return [ProgramFixtures::class];
-        }
+    public function getDependencies()
+    {
+        return [ProgramFixtures::class];
     }
+}

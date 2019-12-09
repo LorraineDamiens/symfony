@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use Faker;
 use App\Entity\Episode;
 use App\Entity\Season;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -29,10 +30,8 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             'synopsis'    => 'on rit aux éclats',
         ],
     ];
-
     public function load(ObjectManager $manager)
     {
-
         foreach (self::EPISODES as $title => $data){
             $episode = new episode();
             $episode->setTitle($title);
@@ -41,10 +40,22 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($episode);
             $episode->setSeason($this->getReference('season_0'));
         }
+        $faker = Faker\Factory::create('fr_FR');
+        for ($i = 0; $i < 147; $i++) {
+            $episode = new episode();
+            $episode->setTitle($faker->sentence);
+            $episode->setNumber($faker->numberBetween(1,3));
+            $episode->setSynopsis($faker->text);
+            $manager->persist($episode);
+            $episode->setSeason($this->getReference('season_' . rand(0, 146)));
+        }
         $manager->flush();
     }
+
     public function getDependencies()
     {
         return [SeasonFixtures::class];
     }
 }
+
+
