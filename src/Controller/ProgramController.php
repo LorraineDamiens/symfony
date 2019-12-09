@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\Slugify;
 use App\Entity\Program;
 use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
@@ -28,11 +29,14 @@ class ProgramController extends AbstractController
     /**
      * @Route("/new", name="program_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Slugify $slugify): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
+        $slug = $slugify->generate($program->getTitle());
+        $program->setSlug($slug);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
