@@ -2,6 +2,7 @@
 // src/Controller/WildController.php
 namespace App\Controller;
 
+use App\Service\Slugify;
 use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Program;
@@ -22,7 +23,7 @@ Class CategoryController extends AbstractController
      * @return Response A response instance
      */
 
-    public function add(Request $request): Response
+    public function add(Request $request, Slugify $slugify): Response
     {
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
@@ -37,6 +38,9 @@ Class CategoryController extends AbstractController
 
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
+        $slug = $slugify->generate($category->getName());
+        $category->setSlug($slug);
+
         if ($form->isSubmitted()) {
             $category = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();

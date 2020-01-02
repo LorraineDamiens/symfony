@@ -4,31 +4,33 @@ namespace App\Service;
 
 class Slugify
 {
+    private $slug;
 
-    public static function slugify($text)
+    public static function generate(string $input) : string
     {
         // replace non letter or digits by -
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        $input = preg_replace('~[^\pL\d]+~u', '-',  $input);
 
         // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        $input = iconv('utf-8', 'us-ascii//TRANSLIT',  $input);
 
         // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
+        $input = preg_replace('~[^-\w]+~', '',  $input);
 
         // trim
-        $text = trim($text, '-');
+        $input = trim( $input, '-');
 
         // remove duplicate -
-        $text = preg_replace('~-+~', '-', $text);
+        $input = preg_replace('~-+~', '-',  $input);
 
         // lowercase
-        $text = strtolower($text);
+        $input = strtolower( $input);
 
-        if (empty($text)) {
+        if (empty( $input)) {
             return 'n-a';
         }
 
-        return $text;
+        return  $input;
     }
+
 }

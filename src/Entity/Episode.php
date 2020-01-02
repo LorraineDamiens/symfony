@@ -32,6 +32,8 @@ class Episode
      */
     private $number;
 
+    private $slug;
+
     /**
      * @ORM\Column(type="text")
      */
@@ -87,6 +89,15 @@ class Episode
     {
         $this->synopsis = $synopsis;
 
+        return $this;
+    }
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
         return $this;
     }
 }
