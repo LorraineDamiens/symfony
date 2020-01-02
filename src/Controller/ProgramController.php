@@ -10,8 +10,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Bridge\Google\Smtp\GmailTransport;
+use Symfony\Bridge\Twig\Mime\BodyRenderer;
+use Twig\Loader\FilesystemLoader;
+
+
+
 
 /**
  * @Route("/program")
@@ -30,6 +38,7 @@ class ProgramController extends AbstractController
 
     /**
      * @Route("/new", name="program_new", methods={"GET","POST"})
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
 
     public function new(Request $request, Slugify $slugify, MailerInterface $mailer): Response
@@ -49,10 +58,14 @@ class ProgramController extends AbstractController
             $entityManager->flush();
 
             $email = (new Email())
-                ->from('mailtrap@example.com')
-                ->to('newuser@example.com')
+                ->from($_ENV['MAILER_FROM_ADDRESS'])
+                ->to('lorrainedams@me.com')
                 ->subject('Une nouvelle série vient d\'être publiée !')
-                ->html('<p>Une nouvelle série vient d\'être publiée sur Wild Séries !</p>');
+                ->html(
+                    $this->renderView(
+                        'program/notification.html.twig',
+                    ['program' => $program,]))
+                        ;
 
             $mailer->send($email);
 
