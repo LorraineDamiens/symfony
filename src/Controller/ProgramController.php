@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * @Route("/program")
@@ -29,7 +31,9 @@ class ProgramController extends AbstractController
     /**
      * @Route("/new", name="program_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Slugify $slugify): Response
+
+    public function new(Request $request, Slugify $slugify, MailerInterface $mailer): Response
+
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -43,6 +47,15 @@ class ProgramController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
             $entityManager->flush();
+
+            $email = (new Email())
+                ->from('mailtrap@example.com')
+                ->to('newuser@example.com')
+                ->subject('Une nouvelle série vient d\'être publiée !')
+                ->html('<p>Une nouvelle série vient d\'être publiée sur Wild Séries !</p>');
+
+            $mailer->send($email);
+
 
             return $this->redirectToRoute('program_index');
         }
