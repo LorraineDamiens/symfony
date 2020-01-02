@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +30,8 @@ class Actor
      * @ORM\ManyToMany(targetEntity="App\Entity\Program", inversedBy="actors")
      */
     private $programs;
+
+    private $slug;
 
     public function __construct()
     {
@@ -75,6 +78,16 @@ class Actor
             $this->programs->removeElement($program);
         }
 
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
         return $this;
     }
 }
